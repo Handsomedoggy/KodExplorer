@@ -1,5 +1,5 @@
 FROM php:7.3-apache
-ENV Koddownload_URL http://static.kodcloud.com/update/download/kodexplorer4.40.zip
+ENV Koddownload_URL http://static.kodcloud.com/update/download/kodbox.1.14.zip
 ##安装相关拓展
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
