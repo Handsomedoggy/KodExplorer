@@ -1,0 +1,36 @@
+{
+    "version": "2.0",
+    "envId": "{{env.ENV_ID}}",
+    "framework":{
+        "name":"kodexplorer",
+        "plugins":{
+            "client": {
+                "use": "@cloudbase/framework-plugin-container",
+                "inputs": {
+                "cpu": 0.5,
+                "mem": 1,    
+                "serviceName": "kodexplorer",
+                "servicePath": "/",
+                "localPath": "./",
+                "uploadType": "package",
+                "containerPort": 80,
+                "volumeMounts": {
+                    "/var/www/html": "kodexplorer-cfs"
+                  }
+                }
+            }
+        },
+        "requirement": {
+            "addons": [
+              {
+                "type": "CFS",
+                "name": "kodexplorer-cfs"
+              },
+              {
+                "type": "CynosDB",
+                "name": "kodexplorer"
+              }
+            ]
+          }
+    }
+}
