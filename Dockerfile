@@ -14,6 +14,24 @@ RUN apt-get update && apt-get install -y \
   && docker-php-ext-install pdo pdo_mysql \
   && cd /usr/local/bin && ./docker-php-ext-install mysqli \
   && rm -rf /var/cache/apk/*
+# set recommended PHP.ini settings
+# see https://docs.nextcloud.com/server/12/admin_manual/configuration_server/server_tuning.html#enable-php-opcache
+RUN { \
+        echo 'opcache.enable=1'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=10000'; \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.save_comments=1'; \
+        echo 'opcache.revalidate_freq=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini; \
+    \
+    echo 'apc.enable_cli=1' >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini; \
+    \
+    echo 'memory_limit=512M' > /usr/local/etc/php/conf.d/memory-limit.ini; \
+    \
+    mkdir /var/www/data; \
+    chown -R www-data:root /var/www; \
+    chmod -R g=u /var/www
 
 ##下载kodexplorer
 RUN apt-get update && apt-get install -y --no-install-recommends unzip ca-certificates wget  \
@@ -29,4 +47,4 @@ EXPOSE 80
 COPY entrypoint.sh /
 RUN chmod a+x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD [ "php", "-S", "0000:80"]
+CMD ["apachectl","-D","FOREGROUND"]
