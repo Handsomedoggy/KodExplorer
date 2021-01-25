@@ -8,6 +8,8 @@
 
 ![02](./02.jpg)
 
+![](./03.jpg)
+
 ## 部署
 
 本项目基于开源项目 [CloudBase Framework](https://github.com/Tencent/cloudbase-framework) 开发部署，支持一键云端部署
